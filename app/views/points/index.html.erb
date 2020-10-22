@@ -1,12 +1,16 @@
 
 <body>
   <div class="header">
+  
     <h1 class="title">Black Jack!!</h1>
+    
   </div>
+  
   <div class="body">
-    <div id="total_c">合計:</div> 
-    <div id="total_p">合計:</div> 
+     
   <div id="container">
+  <div id="total_c">合計:</div> 
+  <div id="total_p">合計:</div>
     <ul id="board_c">
       <li id="card_4"></li>
       <li id="card_3"></li>
@@ -31,6 +35,26 @@
   </div>
     <div id="start">Start</div>
     <div id="next">Next</div>
+
+    <% if user_signed_in? %>
+          <div class="user_nav  ">
+          <img src=<%= current_user.image %> class = "icon_image">
+            <span><%= current_user.nickname %>
+            <ul class="user__info">
+              <li>
+                <%= link_to "マイページ", "/users/#{current_user.id}" %>
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+              </li>
+            </ul>
+          </span>
+            
+          </div>
+        <% else %>
+          <div class="grid-6">
+            <%= link_to "ログイン", new_user_session_path, class: "post" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "post" %>
+          </div>
+        <% end %>
   </div>
   
   
