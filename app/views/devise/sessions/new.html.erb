@@ -1,26 +1,28 @@
-<h2>Log in</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+<div class="window sign">
+  <div class="login">Log in</div>
+  <div class="icon">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="left">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" ,:placeholder =>"Enter your email"%>
+        <%= f.password_field :password, autocomplete: "current-password",:placeholder =>"Password" %>
+        <%= f.submit "Log in", class: "btn"  %>
+      </div>
+    <% end %>
+  
+    <div class ="right">
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <% if OmniAuth::Utils.camelize(provider) == "Twitter" %>
+          <%= button_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), {method: :post, class: "tw btn"}%>
+        <% end %>
+      <% end %>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <% if OmniAuth::Utils.camelize(provider) == "Facebook" %>
+          <%= button_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), {method: :post, class: "fb btn"}%>
+        <% end %>
+      <% end %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

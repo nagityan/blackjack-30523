@@ -2,61 +2,119 @@
 <body>
   <div class="header">
   
-    <h1 class="title">Black Jack!!</h1>
+    <div class="title"><p class="text">Black Jack!</p>
     
+   
+        <% if user_signed_in? %>
+            <div class="user_info">
+              <%= button_to "マイページ", "/users/#{current_user.id}", class: "post" %>
+              <%= button_to "ログアウト", destroy_user_session_path, method: :delete , class: "post"%>
+            </div>
+        <% else %>
+          <div class="user_info">
+            <%= button_to "ログイン", new_user_session_path, class: "post" %>
+            <%= button_to "新規登録", new_user_registration_path, class: "post",method: :get %>
+        </div>
+        <% end %>
+    </div>
+     <p><span id="user">
+     <% if user_signed_in?%>
+     <%# <%= image_tag current_user.image, class: "icon_image" %>
+     こんにちわ
+      <%# <%=image_tag @image,class: "icon_image"%> %>
+      <%=current_user.nickname%>
+      <% else %>
+      <img src="https://placehold.jp/3d4070/ffffff/200x200.png?text=Guest" class="icon_image">
+      こんにちわ、ゲスト
+     <% end %></span>さん<p>
   </div>
   
   <div class="body">
-     
+  <div class="left_container">
   <div id="container">
-  <div id="total_c">合計:</div> 
-  <div id="total_p">合計:</div>
-    <ul id="board_c">
-      <li id="card_4"></li>
-      <li id="card_3"></li>
-    </ul>
-    <ul id="board_p">
-      <li id="card_1"></li>
-      <li id="card_2"></li>
-    </ul>
-    <div id="action">
-      <div id="btn_draw">引く</div>
-      <div id="btn_pass">パス</div>
-    </div>
-    <div id="score">
-     <form >
-        <label for="text_id">スコア</label>
-        <input type="text" id="point">
-        <label for="text_id">Bet</label>
-        <input type="text" id="bet">
-    </form>
-      <div id="all">AllIn</div>
-    </div>
-  </div>
-    <div id="start">Start</div>
-    <div id="next">Next</div>
-
-    <% if user_signed_in? %>
-          <div class="user_nav  ">
-          <img src=<%= current_user.image %> class = "icon_image">
-            <span><%= current_user.nickname %>
-            <ul class="user__info">
-              <li>
-                <%= link_to "マイページ", "/users/#{current_user.id}" %>
-                <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-              </li>
-            </ul>
-          </span>
-            
-          </div>
+  
+    <div id="total_c">合計:</div> 
+    <div id="total_p">合計:</div>
+      <ul id="board_c">
+        <div id="card">
+          <div id="card_4"></div>
+          <div class="back_4"></div>
+        </div>
+        <div id="card">
+          <div id="card_3"></div>
+          <div class="back"></div>
+        </div>
+      </ul>
+      <ul id="board_p">
+        <div id="card">
+          <div id="card_1"></div>
+          <div class="back"></div>
+        </div>
+        <div id="card">
+          <div id="card_2"></div>
+          <div class="back"></div>
+        </div>
+      </ul>
+      <div id="action">
+        <div id="btn_draw">Draw</div>
+        <div id="btn_pass">Pass</div>
+      </div>
+      <div id="bet_set"> 
+        <div>
+          <button id="all" class="btn-square">All In</button>
+          <button  class="triangle_left"></button>
+          <input placeholder="Bet" id="bet"/>
+          <button  class="triangle_right"></button>
+        </div>
+        <div>
+        <%if user_signed_in?%>
+          <input readonly placeholder="Bet" id="point" value =<%=@point %> />
         <% else %>
-          <div class="grid-6">
-            <%= link_to "ログイン", new_user_session_path, class: "post" %>
-            <%= link_to "新規登録", new_user_registration_path, class: "post" %>
-          </div>
+          <input readonly placeholder="Bet" id="point" value = 100>
         <% end %>
+        </div>
+      </div>
+    </div>
+      <div>
+        <button id="start" class="btn-square">Start</button>
+        <button id="next" class="btn-square">Next Game</button>
+      </div>
+    </div>
+    
+
+    <div class="right_side">
+    <div class="ranking">
+      <p class="text"> Point Ranking</p>
+
+      <div class="total">
+       <div class="rank_number">
+    
+        <div class="user_name">
+          <div class="rank">1</div>
+          <div class="rank">2</div>
+          <div class="rank">3</div>
+          <div class="rank">4</div>
+          <div class="rank">5</div>
+        </div>
+       </div>
+       <div>
+        <%@total.each.with_index(1) do|user,i|%>
+          <div class="user_name">
+            <%="#{i}位"%>
+            <%=user[0]%>
+            <p><%=user[1]%>p</p>
+          </div>
+        <%end%>
+      </div>
+      </div>
+    </div>
+    <div class="debt">
+      <%# <button id="debt" class="btn-square" data-toggle="modal" data-target="#testModal"></button> %>
+      <% if user_signed_in? %>
+        <%= button_to "ポイントを借りる", {controller: "debts",action:"index"}, {method: :get ,id:"debt",class:"btn-square"}%>
+      <% end %>
+      
+    </div>
   </div>
-  
-  
   
 </body>

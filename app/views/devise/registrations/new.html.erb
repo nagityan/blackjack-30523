@@ -1,40 +1,33 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
 
 
-  <div class="field">
-    <%= f.label :nickname %> <em>(6 characters maximum)</em><br />
-    <%= f.text_field :nickname, autofocus: true %>
+<div class="window">
+  <div class="login">Sign up</div>
+  <div class="icon">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <div class="left">
+        <%= f.text_field :nickname, autofocus: true,autocomplete: "nickname" ,:placeholder =>"Enter your nickname" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" ,:placeholder =>"Enter your email"%>
+        <%= f.password_field :password, autocomplete: "current-password",:placeholder =>"Password" %>
+        <label class="form-image">
+          <%# <span class="btn">画像を選ぶ</span>　 %>
+          <%= f.file_field :image ,class:"hidden"%>
+        </label>
+        <%= f.submit "Sign up", class: "btn"  %>
+      </div>
+    <% end %>
+  
+    <div class ="right">
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <% if OmniAuth::Utils.camelize(provider) == "Twitter" %>
+          <%= button_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), {method: :post, class: "tw btn"}%>
+        <% end %>
+      <% end %>
+
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <% if OmniAuth::Utils.camelize(provider) == "Facebook" %>
+          <%= button_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), {method: :post, class: "fb btn"}%>
+        <% end %>
+      <% end %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-  <%= f.label :image %><br/>
-  <%= f.file_field :image %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
