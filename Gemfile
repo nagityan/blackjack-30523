@@ -29,7 +29,11 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+   gem 'capistrano'
+  gem 'capistrano-rbenv'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano3-unicorn'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
 end
@@ -65,10 +69,6 @@ gem 'omniauth-twitter'
 gem 'rename'
 
 group :production do
-    gem 'capistrano'
-  gem 'capistrano-rbenv'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
-  gem 'capistrano3-unicorn'
+  
   gem 'unicorn', '5.4.1'
 end
