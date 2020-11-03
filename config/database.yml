@@ -50,5 +50,6 @@ test:
 production:
   <<: *default
   database: blackjack_30523_production
-  username: blackjack_30523
-  password: <%= ENV['BLACKJACK_30523_DATABASE_PASSWORD'] %>
+  username: root
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock
