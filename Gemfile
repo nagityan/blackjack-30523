@@ -61,3 +61,8 @@ gem "pry-rails"
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'rename'
+
+group :production do
+  
+  gem 'unicorn', '5.4.1'
+end
