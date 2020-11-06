@@ -37,7 +37,7 @@ jobs:
           command: |
             gem update --system
             gem install bundler -v 2.1.4
-            
+
       - run:
           name: Bundle Install
           command: bundle check || bundle install
@@ -53,11 +53,7 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      - run:
-          name: run rubocop
-          command: bundle exec rubocop
-
-      
+    
       - run:
           name: run tests
           command: |
