@@ -53,6 +53,14 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
+      - restore_cache:
+        keys:
+          - rails-demo-yarn-{{ checksum "yarn.lock" }}
+          - rails-demo-yarn-
+            
+      - run:
+        name: Yarnをinstall
+        command: yarn install --cache-folder ~/.cache/yarn
        
       - run: bundle exec bin/webpack
 
