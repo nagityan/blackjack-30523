@@ -25,9 +25,7 @@ jobs:
 
     steps:
       - checkout
-      - add_ssh_keys:
-        fingerprints:
-          - "3d:35:c5:9b:09:b9:ff:e4:46:f0:d0:58:e9:60:8d:c3"
+      
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
@@ -85,5 +83,7 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-
-       
+      
+      - add_ssh_keys:
+        fingerprints:
+          - "3d:35:c5:9b:09:b9:ff:e4:46:f0:d0:58:e9:60:8d:c3"
