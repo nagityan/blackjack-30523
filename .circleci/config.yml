@@ -1,93 +1,15 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
-version: 2
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2 
+
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
-        environment:
-          - BUNDLER_VERSION: 2.1.4
-          - RAILS_ENV: 'test'
-
-      - image: circleci/mysql:5.6.47
-        environment:
-          - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
-          - MYSQL_ROOT_HOST: '%'
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/projects/pfc-master
-
+      - image: circleci/ruby:2.6.3-stretch-node
+    executor: ruby/default
     steps:
       - checkout
-      
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            
-            - v1-dependencies-
-
       - run:
-          name: Bundler install
-          command: |
-            gem update --system
-            gem install bundler -v 2.1.4
-
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      - run: mv config/database.yml.ci config/database.yml 
-
-      
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-
-  
-      - run:
-          name: Yarnをinstall
-          command: yarn install
-       
-      - run: bundle exec bin/webpack
-
-      - run:
-          name: run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-
-            sudo gem install bundler
-            sudo gem install rspec
-            sudo gem install rspec-core
-            bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
-
-      
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
-      
-      - add_ssh_keys:
-          fingerprints:
-          - "3d:35:c5:9b:09:b9:ff:e4:46:f0:d0:58:e9:60:8d:c3"
-
-      - deploy:
-          name: Capistrano deploy
-          command: bundle exec cap production deploy
+          name: Which bundler?
+          command: bundle -v
+      - ruby/bundle-install
