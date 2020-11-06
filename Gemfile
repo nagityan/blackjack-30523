@@ -36,10 +36,8 @@ group :development, :test do
   gem 'capistrano3-unicorn'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
    gem 'rspec-rails', '~> 4.0.0'
-   gem "rubocop"
-  gem "rubocop-packaging"
-  gem "rubocop-performance"
-  gem "rubocop-rails"
+   
+ 
 
 end
 
@@ -51,6 +49,9 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', require: false
+  gem "rubocop-packaging"
+  gem "rubocop-performance"
+  gem "rubocop-rails"
 end
 
 group :test do
