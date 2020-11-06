@@ -8,14 +8,9 @@ class PointsController < ApplicationController
         if point[2] == nil
             [point[0],point[1]]
         else
-          [point[0],(point[1] - point[2])]
+          [point[0],(point[1] - point[2]),"(#{point[1]}-#{point[2]})"]
         end
       }
-      # binding.pry
-      if user_signed_in? && SnsCredential.exists?(user_id: current_user.id)
-        @sns = SnsCredential.find_by(user_id: current_user.id)
-        @image = @sns.image
-      end
       if user_signed_in?
         @point = current_user.point.point
       end

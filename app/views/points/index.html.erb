@@ -8,7 +8,7 @@
         <% if user_signed_in? %>
             <div class="user_info">
               <%= button_to "マイページ", "/users/#{current_user.id}", class: "post" %>
-              <%= button_to "ログアウト", destroy_user_session_path, method: :delete , class: "post"%>
+              <%= button_to "ログアウト", destroy_user_session_path, method: :delete , class: "post" %>
             </div>
         <% else %>
           <div class="user_info">
@@ -17,11 +17,9 @@
         </div>
         <% end %>
     </div>
-     <p><span id="user">
+     <p class="user"><span>
      <% if user_signed_in?%>
-     <%# <%= image_tag current_user.image, class: "icon_image" %>
-     こんにちわ
-      <%# <%=image_tag @image,class: "icon_image"%> %>
+     <%= image_tag current_user.image, class: "icon_image"%>
       <%=current_user.nickname%>
       <% else %>
       <img src="https://placehold.jp/3d4070/ffffff/200x200.png?text=Guest" class="icon_image">
@@ -33,9 +31,10 @@
   <div class="left_container">
   <div id="container">
   
-    <div id="total_c">合計:</div> 
-    <div id="total_p">合計:</div>
+      <div class="message">Betを決めて、Startボタンで開始します。</div>
+      
       <ul id="board_c">
+        <div class="total_c">合計:<span id="total_c"></span></div>
         <div id="card">
           <div id="card_4"></div>
           <div class="back_4"></div>
@@ -44,8 +43,10 @@
           <div id="card_3"></div>
           <div class="back"></div>
         </div>
+        <div class="win_lose"></div>
       </ul>
       <ul id="board_p">
+      <div class="total_p">合計:<span id="total_p"></span></div>
         <div id="card">
           <div id="card_1"></div>
           <div class="back"></div>
@@ -62,9 +63,9 @@
       <div id="bet_set"> 
         <div>
           <button id="all" class="btn-square">All In</button>
-          <button  class="triangle_left"></button>
+          <button  id="triangle_left"></button>
           <input placeholder="Bet" id="bet"/>
-          <button  class="triangle_right"></button>
+          <button  id="triangle_right"></button>
         </div>
         <div>
         <%if user_signed_in?%>
@@ -98,23 +99,56 @@
         </div>
        </div>
        <div>
-        <%@total.each.with_index(1) do|user,i|%>
+        <%@total.each do|user|%>
           <div class="user_name">
-            <%="#{i}位"%>
             <%=user[0]%>
-            <p><%=user[1]%>p</p>
+            <p ><span class="points"><%=user[1]%>p</span><%=user[2]%></p>
           </div>
         <%end%>
       </div>
       </div>
     </div>
     <div class="debt">
-      <%# <button id="debt" class="btn-square" data-toggle="modal" data-target="#testModal"></button> %>
       <% if user_signed_in? %>
-        <%= button_to "ポイントを借りる", {controller: "debts",action:"index"}, {method: :get ,id:"debt",class:"btn-square"}%>
-      <% end %>
-      
+        <button id="debt" class="btn-square">ポイントを借りる</button>
+      <% end %> 
+    </div>
+
+    <div class="payoff">
+    <% if user_signed_in? %>
+      <% if Debt.exists?(user_id:current_user.id) && Debt.find_by(user_id:current_user.id).debt_point != 0%>
+        <button id ="repay" class="btn-square">借りたポイント精算</button>
+      <% end %> 
+    <% end %>
+    </div>
+
+</div>
+
+  
+  <div id="modal">
+    <div id="contents">
+      <div class="window sign">
+        <div class="PointRental">Point Rental</div>
+        <div >
+            <%= button_to "5000pを借りる", {controller: "debts",action:"create"}, {method: :post ,class:"btn-square",id:"rent"}%>
+        </div>
+        <div><p class="close">(Click outside the frame to close it.)</p></div>
+      </div>
     </div>
   </div>
+
+  <div id="modal_2">
+    <div id="contents">
+      <div class="window repay">
+        <div class="PointRental">Repay Debt</div>
+        <div class="explain"><span id="under">手持ち5000pを残して、</span>借りたポイントを精算します。</div>
+        <div >
+            <%= button_to "精算", {controller: "debts",action:"index"}, {method: :get ,class:"btn-square",id:"repay_"} %>
+        </div>
+        <div><p class="explain">(Click outside the frame to close it.)</p></div>
+      </div>
+    </div>
+  </div>
+  
   
 </body>

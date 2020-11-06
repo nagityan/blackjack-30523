@@ -20,14 +20,19 @@ body{
   font-family: 'American Typewriter',sans-serif;
   padding-top: 5%;
   margin: auto;
+  
 
 }
-
+.user{
+margin-top: 1%;
+padding-left: 76%;
+}
 .user_info{
   display: flex;
   position: absolute;
   right: 20px;
   margin-top: 0;
+  margin-right: 3%;
 }
 
 .text{
@@ -45,8 +50,10 @@ body{
     text-shadow:1px 1px 0px rgba(0,0,0,.1);
     box-shadow:0px 3px 0px #c1524e;
     font-size: 10px;
-    margin: 0px 10px 10px 10px; 
+    margin: 0px 10px 10px 30px; 
 }
+
+
 
 .icon_image {
   width: 20px;
@@ -79,27 +86,40 @@ body{
   margin: 0 10% 0 30% ;
   background-color: green;
   border-radius: 6px;
+
+}
+
+.message{
+height: 50px;
+text-align: center;
+line-height:50px;
+
 }
 
 #board_c{
-  list-style: none;
+  /* list-style: none; */
   /* background-color: powderblue; */
   border-radius: 4px;
   padding: 10px;
-  margin: 0;
+  margin: 0 auto;
+  position: relative;
+
+  
 }
 
 #board_p{
   list-style: none;
-  /* background-color: powderblue; */
   border-radius: 4px;
   padding: 10px;
   margin: 0 0 10px;
+  position: relative;
 }
 
 #action{
 display: flex;
-justify-content: space-around;
+justify-content: center;
+height: 20%;
+position: relative;
 }
 
 
@@ -112,22 +132,29 @@ ul{
   cursor: pointer;
   width: 120px;
   height: 40px;
-  background-color: #6f8639;
-  box-shadow: 0px 3px 0px #6e8636;
+  background-color: #858b2e;
+  box-shadow: 0px 3px 0px #858b2e;
   border-radius: 16px;
   line-height: 40px;
   text-align: center;
   font-size: 14px;
   color: #fff;
   user-select: none;
-  margin-bottom: 50px;
-  margin-top: 5px;
+  margin: auto 10%;
+  
+
+
 }
 
-#btn_pass:active,#btn_draw:active {
-  top:3px;
+#btn_pass:active{
+  top:50%;
   box-shadow:none;
 }
+#btn_draw:active{
+  left:50px;
+  box-shadow:none;
+}
+
 li{
   background-image:linear-gradient(-45deg, #BA807E 25%, #F8E9EC 25%, #F8E9EC 50%, #BA807E  50%, #BA807E 75%, #F8E9EC 75%, #F8E9EC);
   background-size:16px 16px;
@@ -190,7 +217,7 @@ li{
   margin: 10px;
 }
 
-.triangle_left{
+#triangle_left{
     width: 0;
     height: 0;
     border-top: solid 15px transparent;
@@ -199,7 +226,7 @@ li{
     border-right: solid 15px #fcf876;
     background-color: transparent;
 }
-.triangle_right{
+#triangle_right{
     width: 0;
     height: 0;
     border-top: solid 15px transparent;
@@ -235,12 +262,39 @@ li{
   font-size: large;
 }
 
-.total_p{
-  height: 100px;
-  width: 300px;
-  background-color: aquamarine;
-  margin: auto;
+.total_c{
+  width: 30%;
+  /* background-color: aquamarine; */
+  text-align: center;
+  line-height: 100px;
+  position: absolute;
+  left: 0;
 }
+#total_c,#total_p{
+  font-size: 30px;
+}
+
+.win_lose{
+  width: 20%;
+  /* background-color: aquamarine; */
+  text-align: center;
+  /* line-height: 100px; */
+  position: absolute;
+  right: 10%;
+  top: 55%;
+  font-size: 40px;
+}
+
+.total_p{
+  width: 30%;
+  /* background-color: aquamarine; */
+  text-align: center;
+  line-height: 100px;
+  position: absolute;
+  left: 0;
+}
+
+
 .process{
   display: flex;
 }
@@ -291,7 +345,9 @@ li{
   display: flex;
   height: 100%;
 }
-
+.points{
+  font-size: 30px;
+}
 
 .rank_number{
   width: 15%;
@@ -313,3 +369,85 @@ li{
   font-size: large;
   display: none;
 }
+
+#repay{
+  width: 60%;
+  margin:10% auto 0;
+  border: 1px solid black;
+  text-align: center;
+  border-radius: 4px;
+  display: block;
+  font-size: large;
+  display: none;
+}
+
+
+
+#modal,#modal_2 {
+	display: none;
+}
+/* モーダルウインドウを開いたとき */
+
+#modal.__open,#modal_2.__open {
+	display: block;
+}
+
+
+/* モーダルウインドウの基本スタイル */
+#modal,#modal_2 {
+	
+	top: 25%;
+	left: 0;
+	width: 100%;
+	height: 75%;
+	overflow: scroll;
+  
+  background-color:transparent;
+  /* background-color: thistle; */
+  position: absolute;
+  /* transform: translate(-50%,-50%); */
+  backdrop-filter: blur(3px);
+  z-index: 40;
+}
+
+#contents{  
+  height: 75%;
+  width: 45%;
+  background-color: green;
+  border-radius: 6px;
+  left: 333px;
+  position: absolute;
+  z-index: 30;
+}
+.PointRental{
+  text-align:center;
+  font-size: 35px;
+  color:black;
+  margin: 0 auto;
+  font-family: 'American Typewriter',sans-serif;
+}
+#rent{
+  margin-left: 15%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+}
+.explain{
+  margin-top: 5%;
+  font-family: 'American Typewriter',sans-serif;
+}
+#under{
+  text-decoration: underline;
+}
+.repay{
+  width: 50%;
+}
+#repay_{
+  width: 50%;
+  margin: 5%;
+  margin-left: 25%;
+}
+.close{
+  font-family: 'American Typewriter',sans-serif;
+}
+
+

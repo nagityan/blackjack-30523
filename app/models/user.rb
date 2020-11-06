@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,:omniauthable, omniauth_providers: [:facebook,:twitter]
   validates :nickname, presence: true
+  validates :image, presence: true
   
 
   has_one_attached :image

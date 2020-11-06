@@ -24,4 +24,25 @@ class DebtsController < ApplicationController
       end
     end
   end
+
+  def index
+      @point = current_user.point.point
+      @user_point = Point.find_by(user_id: current_user.id)
+      @debt = current_user.debt.debt_point
+      @user_debt = Debt.find_by(user_id: current_user.id)
+
+    if @point > @debt
+      @point = @point - @debt
+      @debt = 0
+      @user_point.update(point:@point)
+      @user_debt.update(debt_point:@debt)
+    else
+      @debt = @debt - (@point - 5000)
+      @point = 5000
+      @user_point.update(point:@point)
+      @user_debt.update(debt_point:@debt)
+    end
+    
+    redirect_to root_path
+  end
 end

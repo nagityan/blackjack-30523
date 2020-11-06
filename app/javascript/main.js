@@ -14,6 +14,8 @@ const btn_pass =　document.getElementById("btn_pass")
 const bet = document.getElementById("bet")
 var   point = document.getElementById("point")
 const all = document.getElementById("all")
+const triangle_left = document.getElementById("triangle_left")
+const triangle_right = document.getElementById("triangle_right")
 const set_1 = document.getElementById("card_1");
 const set_2 = document.getElementById("card_2");
 const set_3 = document.getElementById("card_3");
@@ -22,11 +24,34 @@ const cards_p = document.getElementById("board_p")
 const cards_c = document.getElementById("board_c")
 const back = document.querySelectorAll(".back")
 const back_4 = document.getElementsByClassName("back_4")
-
-
-all.addEventListener("click",()=>{
+const message = document.getElementsByClassName("message")
+const win_lose = document.getElementsByClassName("win_lose")
+const debt = document.getElementById("debt")
+//betの設定
+bet.value =parseInt(0)
+const allin = ()=>{
   bet.value = point.value
-})
+}
+const downbet = ()=>{
+  if((parseInt(bet.value) - parseInt(point.value/10) <= 0)){
+    bet.value =parseInt(0)
+  }
+  else{
+    Math.floor(bet.value = parseInt(bet.value) - parseInt(point.value/10))
+}}
+
+const upbet = ()=>{
+ 
+  if((parseInt(bet.value) + parseInt(point.value/10) >= point.value)){
+    bet.value = point.value
+  }
+  else{
+    Math.floor(bet.value = parseInt(bet.value) + parseInt(point.value/10))
+}}
+
+all.addEventListener("click",allin)
+triangle_left.addEventListener("click",downbet)
+triangle_right.addEventListener("click",upbet)
 
 
 //playerがカードを引くアクション
@@ -60,13 +85,21 @@ const hiku = ()=>{
     total_p.innerText = test.cards_sum_p()
     btn_draw.addEventListener("click", hiku)
       if (total_p.textContent >= 22){
-        total_p.innerText =`Burstしました(合計:${total_p.textContent})あなたの負けです。`
+        total_p.innerText =`Burst(${total_p.textContent})`
+        message[0].innerText =`Burstしました。あなたの負けです。`
+        win_lose[0].innerHTML =`Lose`
+        await sleep(500);
+        win_lose[0].insertAdjacentHTML("beforeend",`.`)
+        await sleep(500);
+        win_lose[0].insertAdjacentHTML("beforeend",`.`)
         btn_draw.removeEventListener("click", hiku)
         btn_pass.removeEventListener("click", pass)
         point_request()
         if (point.value == 0){
           const debt = document.getElementById("debt").style.display="block"
         }
+        next.addEventListener("click", next_game)
+        next.style.backgroundColor="#f26964"
       }
   }
     
@@ -77,9 +110,8 @@ const hiku = ()=>{
 
 //passを押してcpuに受け渡すアクション
 const pass = ()=>{
-  btn_draw.removeEventListener("click", hiku)
-console.log("相手がカードをopenしました。")
-
+btn_draw.removeEventListener("click", hiku)
+message[0].innerText =`相手がカードをopenします。`
 //裏の初期カードをopenする
 set_4.innerHTML = test.get_number_c()
 total_c.innerText = test.cards_sum_c()
@@ -98,6 +130,7 @@ btn_pass.removeEventListener("click", pass)
     async function start() {
     
     if (total_c.textContent <=21){
+      message[0].innerText =`相手は1枚カードを引きます。`
       await sleep(1500);
       const newcard = document.createElement("div")
       newcard.setAttribute("id","card_c")
@@ -110,44 +143,77 @@ btn_pass.removeEventListener("click", pass)
       cards_c.appendChild(newcard);
       card_front_c.innerHTML = test.get_number_c()
       await sleep(700);
-      console.log("Ok")
       const back = document.getElementsByClassName("back_c")
       back[back.length - 1].style.transform = 'rotateY(180deg)';
-      // console.log(back)
       const front = document.getElementsByClassName("front_c")
       front[front.length - 1].style.transform = 'rotateY(0)';
-      // console.log(front)
+      
       total_c.innerText = test.cards_sum_c() 
-
+      
       if (total_c.textContent >= 22){
-        total_c.innerText =`CPUはBurstしました(合計:${total_c.textContent})あなたの勝ちです。`
+        total_c.innerText =`Burst(${total_c.textContent})`
+        message[0].innerText =`相手はBurstしました。 ${total_c.textContent}あなたの勝ちです。`
         point.value = parseInt(point.value) + parseInt(bet.value * 2)
         point_request()
         next.addEventListener("click", next_game)
         next.style.backgroundColor="#f26964"
+        win_lose[0].innerHTML =`Win!!`
+        await sleep(500);
+        win_lose[0].insertAdjacentHTML("beforeend",`\n+${parseInt(bet.value * 2)}`)
+        if(point.value > 5000){
+          const repay = document.getElementById("repay").style.display="block"
+        }
+       
       }
       else{
+        message[0].innerText =`考え中...`
+        await sleep(2500);
         start()
       }
 
     }
     else{
       //両者Burstしなかった時の勝敗
+      await sleep(1000);
+      message[0].innerText =`相手はカードを引きませんでした。`
+      await sleep(2000);
       if(test.cards_sum_c() < test.cards_sum_p()){
-        console.log("あなたの勝ちです。")
+        message[0].innerText =`あなたの勝ちです。${total_c.textContent}対${total_p.textContent}`
         point.value = parseInt(point.value) + parseInt(bet.value * 2)
         point_request()
         next.addEventListener("click", next_game)
+        next.style.backgroundColor="#f26964"
+        win_lose[0].innerHTML =`Win!!`
+        await sleep(500);
+        win_lose[0].insertAdjacentHTML("beforeend",`\n+${parseInt(bet.value * 2)}`)
+        
       }
       else if(test.cards_sum_c() == test.cards_sum_p()){
-        console.log("引き分けです")
+        message[0].innerText =`引き分けです。${total_c.textContent}対${total_p.textContent}`
+        win_lose[0].innerHTML =`Draw`
         point.value = parseInt(point.value) + parseInt(bet.value)
+        next.addEventListener("click", next_game)
+        next.style.backgroundColor="#f26964"
+        
       }
       else {
-        console.log("あなたの負けです。")
+        message[0].innerText =`あなたの負けです。${total_c.textContent}対${total_p.textContent}`
         point_request()
+        win_lose[0].innerHTML =`Lose`
+        await sleep(800);
+        win_lose[0].insertAdjacentHTML("beforeend",`.`)
+        await sleep(800);
+        win_lose[0].insertAdjacentHTML("beforeend",`.`)
+
         if (point.value == 0){
           const debt = document.getElementById("debt").style.display="block"
+        }
+        else if(point.value > 5000){
+          const repay = document.getElementById("repay").style.display="block"
+        }
+        else{
+          next.addEventListener("click", next_game)
+          next.style.backgroundColor="#f26964"
         }
       }
     }
@@ -167,9 +233,11 @@ start.addEventListener("click", start_card)
     
 
     else{
-  
+    all.removeEventListener("click",allin)
+    triangle_left.removeEventListener("click",downbet)
+    triangle_right.removeEventListener("click",upbet)
+    message[0].innerText =`DrawかPassを選択してください。`
     bet.readOnly = true;
-    
     set_1.innerHTML = test.get_number_p();
     set_2.innerHTML = test.get_number_p();
     set_3.innerHTML = test.get_number_c();
@@ -188,8 +256,8 @@ start.addEventListener("click", start_card)
     point.value = remain
    
     all.style.backgroundColor="#b64e4b"
-    btn_draw.style.backgroundColor="#88a543"
-    btn_pass.style.backgroundColor="#88a543"
+    btn_draw.style.backgroundColor="#b3bd32"
+    btn_pass.style.backgroundColor="#b3bd32"
   }
   
  
@@ -202,18 +270,19 @@ start.addEventListener("click", start_card)
   //次のゲームのため、リセットを行う
   function next_game() {
     bet.readOnly = false;
+    bet.value = parseInt(bet.value)
     set_1.innerHTML = ""
     set_2.innerHTML = ""
     set_3.innerHTML = ""
     set_4.innerHTML = ""
-    total_p.innerHTML = "合計:"
-    total_c.innerHTML = "合計:"
+    total_p.innerHTML = ""
+    total_c.innerHTML = ""
+    win_lose[0].innerHTML =``
     turn_the_car_over()
     back_4[0].style.transform = 'rotateY(0)';
     set_4.style.transform = 'rotateY(180deg)';
 
     var delete_card = document.querySelectorAll("#card_p,#card_c")
-    console.log(delete_card)
     if (delete_card){
       delete_card.forEach(function(list) {
         list.remove()
@@ -222,6 +291,7 @@ start.addEventListener("click", start_card)
   //カードを山札に戻す
     test.reset_card()
     start.addEventListener("click", start_card)
+    all.addEventListener("click", allin)
     start.style.backgroundColor="#f26964"
     all.style.backgroundColor="#f26964"
   }
@@ -264,6 +334,35 @@ if (point.value == 0){
   const debt = document.getElementById("debt").style.display="block"
 }
   
+
+//モーダルウインドウを開く
+const modal = document.getElementById("modal")
+debt.addEventListener('click', function(){
+	// var target= $(this).attr('href');
+	// $('#modal_inner'.html($(target).html());
+  modal.classList.add('__open')
+});
+
+const repay = document.getElementById("repay")
+const modal_2 = document.getElementById("modal_2")
+repay.addEventListener('click', function(){
+	// var target= $(this).attr('href');
+	// $('#modal_inner'.html($(target).html());
+  modal_2.classList.add('__open')
+});
+
+
+
+//モーダルウインドウを閉じる
+modal.addEventListener('click', function(){
+	modal.classList.remove('__open')
+});
+
+modal_2.addEventListener('click', function(){
+	modal_2.classList.remove('__open')
+});
+
+
 
 
   
