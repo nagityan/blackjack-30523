@@ -40,6 +40,7 @@ padding-left: 76%;
   margin: auto;
   text-align: center;
   padding-top: 1%;
+  margin-bottom: 15px;
 }
 
 .post{
@@ -326,11 +327,12 @@ li{
   border-radius:6px;
   padding:20px;
   margin-right: 20px;
+  
 }
 
 .user_name{
   color: black;
-  padding: 20px 0px 15px;
+  padding: 5px 0px 5px;
 }
 
 
