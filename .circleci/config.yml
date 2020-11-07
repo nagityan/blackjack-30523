@@ -95,24 +95,24 @@ jobs:
           command: bundle exec cap production deploy 
       
       - slack/notify:
-        event: always
-        custom: |
-          {
-            "blocks": [
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "Current Job: $CIRCLE_JOB"
+          event: always
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Current Job: $CIRCLE_JOB"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Write some text here"
+                  }
                 }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "Write some text here"
-                }
+                ]
               }
-              ]
-            }
           
