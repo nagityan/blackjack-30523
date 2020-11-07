@@ -96,25 +96,7 @@ jobs:
       
       - slack/notify:
           channel: "C01E5FCS6QM" 
-          event: always
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "Current Job: $CIRCLE_JOB"
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "Write some text here"
-                  }
-                }
-                ]
-              }
+          event: pass
+          template: success_tagged_deploy_1
 
           
