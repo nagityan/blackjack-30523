@@ -2,9 +2,8 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2.1
-orbs:
-  slack: circleci/slack@4.1.1
+version: 2
+
 
 jobs:
   build:
@@ -95,7 +94,4 @@ jobs:
           name: Capistrano deploy
           command: bundle exec cap production deploy 
       
-      - slack/notify:
-        webhook: '${SLACK_WEBHOOK}'
-        event: fail
-        template: basic_fail_1
+      
