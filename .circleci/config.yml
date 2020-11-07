@@ -96,19 +96,6 @@ jobs:
           command: bundle exec cap production deploy 
       
       - slack/notify:
-          custom: |
-          {
-            "blocks": [
-              {
-                "type": "section",
-                "fields": [
-                  {
-                    "type": "plain_text",
-                    "text": "*This is a text notification*",
-                    "emoji": true
-                  }
-                ]
-              }
-            ]
-          }
-    
+        webhook: '${SLACK_WEBHOOK}'
+        event: fail
+        template: basic_fail_1
