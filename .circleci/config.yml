@@ -2,9 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2
-
-
+version: 2.1
+orbs:
+  slack: circleci/slack@4.1.1
 jobs:
   build:
     docker:
@@ -94,4 +94,7 @@ jobs:
           name: Capistrano deploy
           command: bundle exec cap production deploy 
       
-      
+      - slack/notify:
+          color: '#42e2f4'
+          message: "Hey ${CIRCLE_USERNAME}, ${CIRCLE_JOB} failed: ${CIRCLE_BUILD_URL}"
+          webhook: 'SLACK_WEBHOOK'
