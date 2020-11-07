@@ -95,6 +95,21 @@ jobs:
           command: bundle exec cap production deploy 
       
       - slack/notify:
-          color: '#42e2f4'
-          message: "Hey ${CIRCLE_USERNAME}, ${CIRCLE_JOB} failed: ${CIRCLE_BUILD_URL}"
-          webhook: 'SLACK_WEBHOOK'
+          event: always
+          channel: 'SLACK_WEBHOOK'
+          custom: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "plain_text",
+                    "text": "*This is a text notification*",
+                    "emoji": true
+                  }
+                ]
+              }
+            ]
+          }
+          
