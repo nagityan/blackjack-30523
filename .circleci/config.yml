@@ -95,7 +95,7 @@ jobs:
           command: bundle exec cap production deploy 
       
       - slack/notify:
-          channel: "https://shibuya-techcamp.slack.com/archives/D01A6F42X98"
+          channel: $SLACK_DEFAULT_CHANNEL
           event: always
           custom: |
             {
