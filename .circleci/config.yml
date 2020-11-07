@@ -2,7 +2,10 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
-version: 2
+version: 2.1
+orbs:
+  slack: circleci/slack@4.1.1
+
 jobs:
   build:
     docker:
@@ -91,3 +94,8 @@ jobs:
       - deploy:
           name: Capistrano deploy
           command: bundle exec cap production deploy 
+      
+      - slack/status:
+          success_message: ':circleci-pass: $CIRCLE_BRANCH のデプロイが完了しました\n:github_octocat: User：$CIRCLE_USERNAME'
+          failure_message: ':circleci-fail: $CIRCLE_BRANCH のデプロイが失敗しました\n:github_octocat: User：$CIRCLE_USERNAME'
+          webhook: '${SLACK_WEBHOOK}'
