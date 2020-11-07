@@ -95,7 +95,20 @@ jobs:
           name: Capistrano deploy
           command: bundle exec cap production deploy 
       
-      - slack/status:
-          success_message: ':successcircleci:$CIRCLE_BRANCH Deploy Success\n:github: User：$CIRCLE_USERNAME'
-          failure_message: ':failcircleci2:$CIRCLE_BRANCH Deploy Fail\n:github: User：$CIRCLE_USERNAME'
-          webhook: '${SLACK_WEBHOOK}'
+      - slack/notify:
+          custom: |
+          {
+            "blocks": [
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "plain_text",
+                    "text": "*This is a text notification*",
+                    "emoji": true
+                  }
+                ]
+              }
+            ]
+          }
+    
