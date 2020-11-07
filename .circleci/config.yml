@@ -95,21 +95,24 @@ jobs:
           command: bundle exec cap production deploy 
       
       - slack/notify:
-          event: always
-          channel: 'SLACK_WEBHOOK'
-          custom: |
+        event: always
+        custom: |
           {
             "blocks": [
               {
                 "type": "section",
-                "fields": [
-                  {
-                    "type": "plain_text",
-                    "text": "*This is a text notification*",
-                    "emoji": true
-                  }
-                ]
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "Current Job: $CIRCLE_JOB"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "Write some text here"
+                }
               }
-            ]
-          }
+              ]
+            }
           
