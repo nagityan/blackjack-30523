@@ -14,7 +14,7 @@ set :rbenv_type, :user
 set :rbenv_ruby, '2.6.5' #カリキュラム通りに進めた場合、’2.6.5’ です
 
 # どの公開鍵を利用してデプロイするか
-set :ssh_options, auth_methods: ['publickey'],keys:['~/.ssh/id_rsa_3d:35:c5:9b:09:b9:ff:e4:46:f0:d0:58:e9:60:8d:c3']          
+set :ssh_options, auth_methods: ['publickey'],keys:['~/.ssh/id_rsa_3d35c59b09b9ffe446f0d058e9608dc3']          
 # プロセス番号を記載したファイルの場所
 set :unicorn_pid, -> { "#{shared_path}/tmp/pids/unicorn.pid" }
 
