@@ -52,8 +52,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   def after_sign_up_path_for(resource)
-      @first_point = Point.new(point: 1000,user_id: current_user.id)
+      @first_point = Point.new(point: 10000,user_id: current_user.id)
       @first_point.save
+      @first_debt = Debt.new(debt_point: 0,user_id: current_user.id)
+      @first_debt.save
       # binding.pry
       if SnsCredential.exists?(email: current_user.email)
         sns = SnsCredential.find_by(email: current_user.email)

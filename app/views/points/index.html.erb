@@ -91,15 +91,21 @@
        <div class="rank_number">
     
         <div class="user_name">
-          <div class="rank">1</div>
-          <div class="rank">2</div>
-          <div class="rank">3</div>
-          <div class="rank">4</div>
-          <div class="rank">5</div>
+          <div class="rank">
+          <%= image_tag 'gold.png', class:"ranking_icon" %>
+          </div>
+          <div class="rank">
+          <%= image_tag 'silver.png', class:"ranking_icon" %>
+          </div>
+          <div class="rank">
+          <%= image_tag 'brond.png', class:"ranking_icon" %>
+          </div>
+          <div class="rank">4位</div>
+          <div class="rank">5位</div>
         </div>
        </div>
        <div>
-        <%@total.each do|user|%>
+        <%@sort.first(5).each do|user|%>
           <div class="user_name">
             <%=user[0]%>
             <p ><span class="points"><%=user[1]%>p</span><%=user[2]%></p>

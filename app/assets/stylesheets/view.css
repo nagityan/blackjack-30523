@@ -336,12 +336,17 @@ li{
 }
 
 
+.ranking_icon{
+  width: 25px;
+  height: 25px;
+  
+}
 .total{
   display: flex;
   height: 100%;
 }
 .points{
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .rank_number{

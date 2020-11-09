@@ -1,16 +1,19 @@
 class PointsController < ApplicationController
   protect_from_forgery :except => [:create]
   def index
-      @join = User.left_joins(:point,:debt)
-      @user_point = @join.order(point: :DESC).limit(5).pluck(:nickname,:point,:debt_point)
-      @total = @user_point.map{ |point|
-        point
-        if point[2] == nil
-            [point[0],point[1]]
+      @join = User.joins(:point,:debt).select("users.nickname,points.point,debts.debt_point")
+      
+      @total = @join.map{|point| 
+        if point[:debt_point] == nil
+                [point[:nickname],point[:point]]
         else
-          [point[0],(point[1] - point[2]),"(#{point[1]}-#{point[2]})"]
+          [point[:nickname],(point[:point]-point[:debt_point]),"(#{point[:point]}-#{point[:debt_point]})"]
         end
       }
+      @sort = @total.sort do |a, b|
+        b[1] <=> a[1]
+      end
+      # binding.pry
       if user_signed_in?
         @point = current_user.point.point
       end
