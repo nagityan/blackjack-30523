@@ -269,6 +269,7 @@ start.addEventListener("click", start_card)
 
   //次のゲームのため、リセットを行う
   function next_game() {
+    
     bet.readOnly = false;
     bet.value = parseInt(bet.value)
     set_1.innerHTML = ""
@@ -294,6 +295,9 @@ start.addEventListener("click", start_card)
     all.addEventListener("click", allin)
     start.style.backgroundColor="#f26964"
     all.style.backgroundColor="#f26964"
+    message[0].innerText =`Betを決めて、Startボタンで開始します。`
+
+
   }
 
   //ポイント送信
